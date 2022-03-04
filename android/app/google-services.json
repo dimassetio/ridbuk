@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "213090762451",
+    "project_id": "ridbuk-c47ca",
+    "storage_bucket": "ridbuk-c47ca.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:213090762451:android:790f3e3e97f626b613de26",
+        "android_client_info": {
+          "package_name": "com.massatset.ridbuk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "213090762451-i93kmhldjlpmju6dqphfr20f98sqosca.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBA3uv-ORfBYCMSQOfjTwiPvVO4Y1agz6A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "213090762451-i93kmhldjlpmju6dqphfr20f98sqosca.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

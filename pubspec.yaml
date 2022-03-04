@@ -1,0 +1,30 @@
+name: ridbuk
+version: 1.0.0+1
+publish_to: none
+description: A new Flutter project.
+environment:
+  sdk: ">=2.17.0-150.0.dev <3.0.0"
+
+dependencies:
+  avatar_glow: ^2.0.2
+  cloud_firestore: ^3.1.10
+  cupertino_icons: ^1.0.2
+  firebase: ^9.0.2
+  firebase_auth: ^3.3.9
+  firebase_core: ^1.13.1
+  flutter:
+    sdk: flutter
+  flutter_svg: ^1.0.3
+  get: 4.6.1
+  intl: ^0.17.0
+  nb_utils: ^4.4.12
+
+dev_dependencies:
+  flutter_lints: ^1.0.0
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+  assets:
+    - images/
