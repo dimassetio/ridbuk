@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:ridbuk/app/modules/form_book/bindings/form_binding.dart';
+import 'package:ridbuk/app/modules/form_book/views/form_view.dart';
 
 import '../modules/auth/bindings/auth_binding.dart';
 import '../modules/auth/views/auth_view.dart';
@@ -22,6 +24,11 @@ class AppPages {
       name: _Paths.AUTH,
       page: () => AuthView(),
       binding: AuthBinding(),
+    ),
+    GetPage(
+      name: _Paths.FORMBOOK,
+      page: () => FormView(),
+      binding: FormBinding(),
     ),
   ];
 }

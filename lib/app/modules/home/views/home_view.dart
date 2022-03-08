@@ -5,10 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:ridbuk/app/const/color.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:ridbuk/app/const/images.dart';
 import 'package:ridbuk/app/modules/auth/controllers/auth_controller.dart';
+import 'package:ridbuk/app/data/models/book_model.dart';
 import 'package:ridbuk/app/routes/app_pages.dart';
 import 'package:ridbuk/app/widgets/widgets.dart';
 import '../controllers/home_controller.dart';
@@ -18,10 +20,6 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text('HomeView'),
-      //   centerTitle: true,
-      // ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
@@ -108,7 +106,9 @@ class HomeView extends GetView<HomeController> {
                                 fontSize: 16,
                                 fontWeight: FontWeight.w400),
                             IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Get.toNamed(Routes.FORMBOOK);
+                              },
                               icon: Icon(
                                 Icons.add_circle_outline_outlined,
                                 color: Colors.white,
@@ -120,15 +120,33 @@ class HomeView extends GetView<HomeController> {
                         16.height,
                         Container(
                           height: 200,
-                          child: ListView.builder(
-                            shrinkWrap: true,
-                            scrollDirection: Axis.horizontal,
-                            itemCount: 10,
-                            physics: ScrollPhysics(),
-                            itemBuilder: (context, index) => BookCard(
-                              index: index,
-                            ).paddingRight(16),
-                          ),
+                          alignment: Alignment.centerLeft,
+                          child: Obx(() => controller.books.length < 1
+                              ? Center(
+                                  child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        text("No Book Found",
+                                            color: Colors.white),
+                                        TextButton(
+                                            onPressed: () =>
+                                                Get.toNamed(Routes.FORMBOOK),
+                                            child: text(
+                                              "Add your first book!",
+                                              color: Colors.white,
+                                            ))
+                                      ]),
+                                )
+                              : ListView.builder(
+                                  shrinkWrap: true,
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: controller.books.length,
+                                  physics: ScrollPhysics(),
+                                  itemBuilder: (context, index) => BookCard(
+                                    book: controller.books[index],
+                                  ).paddingRight(16),
+                                )),
                         ),
                         16.height,
                         // Expanded(
@@ -197,9 +215,9 @@ class HomeView extends GetView<HomeController> {
   }
 }
 
-class BookCard extends StatelessWidget {
-  BookCard({required this.index});
-  int index;
+class BookCard extends GetView<HomeController> {
+  BookCard({required this.book});
+  Book book;
 
   @override
   Widget build(BuildContext context) {
@@ -215,24 +233,34 @@ class BookCard extends StatelessWidget {
               children: [
                 Align(
                   alignment: Alignment.center,
-                  child: SvgPicture.asset(
-                    svgCover,
-                    height: 60,
-                  ),
+                  child: book.images.isEmptyOrNull
+                      ? SvgPicture.asset(
+                          svgCover,
+                          height: 60,
+                        )
+                      : Image.network(
+                          book.images!,
+                          height: 60,
+                        ),
                 ),
                 16.height,
-                text("Book Name", color: clr_primary),
+                text(book.name ?? "Book Name", color: clr_primary),
                 8.height,
-                text("Book Category", color: clr_primary, fontSize: 12),
+                text(book.category ?? "Book Category",
+                    color: clr_primary, fontSize: 12),
                 // 8.height,
-                text("$index/10 Page", color: clr_primary, fontSize: 12),
+                text("${book.readPage}/${book.pages} Page",
+                    color: clr_primary, fontSize: 12),
                 8.height,
-                text("${index / 10 * 100}%", color: clr_primary),
+                text(
+                    NumberFormat.percentPattern('id')
+                        .format((book.readPage ?? 0) / (book.pages ?? 0)),
+                    color: clr_primary),
                 2.height,
                 ClipRRect(
                   borderRadius: BorderRadius.circular(16),
                   child: LinearProgressIndicator(
-                    value: index / 10,
+                    value: (book.readPage ?? 0) / (book.pages ?? 0),
                     minHeight: 10,
                     backgroundColor: Colors.grey[400],
                   ),
@@ -241,38 +269,43 @@ class BookCard extends StatelessWidget {
             ),
           ),
           if (showEdit.value)
-            AnimatedContainer(
-              duration: Duration(milliseconds: 5),
-              child: BoxContainer(
-                width: 150,
-                height: 200,
-                padding: 0,
-                color: clr_primary.withOpacity(0.7),
-                children: [
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: IconButton(
-                        onPressed: () {
-                          showEdit.value = !showEdit.value;
-                        },
-                        icon: Icon(
-                          Icons.cancel_outlined,
-                          color: Colors.white,
-                        )),
-                  ),
-                  Expanded(
-                    child: Center(
-                      child: TextButton.icon(
-                          onPressed: () {},
-                          icon: Icon(
-                            Icons.edit,
-                            color: Colors.white,
-                          ),
-                          label: text("Edit", color: Colors.white)),
+            BoxContainer(
+              width: 150,
+              height: 200,
+              padding: 0,
+              crossAxis: CrossAxisAlignment.center,
+              color: clr_primary.withOpacity(0.7),
+              children: [
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: IconButton(
+                      onPressed: () {
+                        showEdit.value = !showEdit.value;
+                      },
+                      icon: Icon(
+                        Icons.cancel_outlined,
+                        color: Colors.white,
+                      )),
+                ),
+                TextButton.icon(
+                    onPressed: () {
+                      Get.toNamed(Routes.FORMBOOK, arguments: book);
+                    },
+                    icon: Icon(
+                      Icons.edit,
+                      color: Colors.white,
                     ),
-                  )
-                ],
-              ),
+                    label: text("Edit", color: Colors.white)),
+                TextButton.icon(
+                    onPressed: () {
+                      controller.delete(book);
+                    },
+                    icon: Icon(
+                      Icons.delete,
+                      color: Colors.white,
+                    ),
+                    label: text("Delete", color: Colors.white)),
+              ],
             )
         ],
       ),
