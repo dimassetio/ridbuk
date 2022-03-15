@@ -185,7 +185,7 @@ class FormView extends GetView<FormController> {
                                   },
                             label: controller.isSaving
                                 ? CircularProgressIndicator(
-                                    color: Colors.white,
+                                    color: clr_white,
                                   )
                                 : text("Submit")),
                       ),

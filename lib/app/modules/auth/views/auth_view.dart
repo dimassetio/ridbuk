@@ -175,7 +175,7 @@ class AuthView extends GetView<AuthController> {
                             ? CircularProgressIndicator()
                             : null,
                         color: clr_primary,
-                        textColor: Colors.white,
+                        textColor: clr_white,
                         onTap: controller.isSaving
                             ? null
                             : () async {

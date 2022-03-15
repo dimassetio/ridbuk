@@ -8,10 +8,12 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:ridbuk/app/const/color.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:ridbuk/app/const/images.dart';
 import 'package:ridbuk/app/modules/auth/controllers/auth_controller.dart';
 import 'package:ridbuk/app/data/models/book_model.dart';
 import 'package:ridbuk/app/routes/app_pages.dart';
+import 'package:ridbuk/app/widgets/bottom_bar.dart';
 import 'package:ridbuk/app/widgets/widgets.dart';
 import '../controllers/home_controller.dart';
 
@@ -25,33 +27,13 @@ class HomeView extends GetView<HomeController> {
         onPressed: () {},
         child: Icon(
           Icons.add,
-          color: Colors.white,
+          color: clr_white,
           size: 30,
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
-        color: clr_background,
-        notchMargin: 10,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  Icons.home,
-                  size: 30,
-                )),
-            IconButton(
-                onPressed: () {
-                  Get.toNamed(Routes.AUTH);
-                },
-                icon: Icon(
-                  Icons.person,
-                  size: 30,
-                  color: clr_grey,
-                )),
-          ],
-        ),
+      bottomNavigationBar: BotBar(
+        authC: authC,
+        index: 0,
       ),
       body: Stack(
         children: [
@@ -73,7 +55,7 @@ class HomeView extends GetView<HomeController> {
                     visualDensity: VisualDensity(),
                     contentPadding: EdgeInsets.zero,
                     leading: CircleAvatar(
-                      backgroundColor: Colors.white,
+                      backgroundColor: clr_white,
                       child: Icon(
                         Icons.person,
                         size: 36,
@@ -82,15 +64,15 @@ class HomeView extends GetView<HomeController> {
                     ),
                     title: text(
                       "Hai",
-                      color: Colors.white,
+                      color: clr_white,
                     ),
                     subtitle: text(
                       authC.firebaseUser.value?.email ?? "Email",
-                      color: Colors.white,
+                      color: clr_white,
                     ),
                     trailing: Icon(
                       Icons.notifications_outlined,
-                      color: Colors.white,
+                      color: clr_white,
                       size: 40,
                     ).paddingRight(16),
                   ),
@@ -102,7 +84,7 @@ class HomeView extends GetView<HomeController> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             text("Book List",
-                                color: Colors.white,
+                                color: clr_white,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w400),
                             IconButton(
@@ -111,7 +93,7 @@ class HomeView extends GetView<HomeController> {
                               },
                               icon: Icon(
                                 Icons.add_circle_outline_outlined,
-                                color: Colors.white,
+                                color: clr_white,
                                 // size: 30,
                               ),
                             )
@@ -127,14 +109,13 @@ class HomeView extends GetView<HomeController> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
-                                        text("No Book Found",
-                                            color: Colors.white),
+                                        text("No Book Found", color: clr_white),
                                         TextButton(
                                             onPressed: () =>
                                                 Get.toNamed(Routes.FORMBOOK),
                                             child: text(
                                               "Add your first book!",
-                                              color: Colors.white,
+                                              color: clr_white,
                                             ))
                                       ]),
                                 )
@@ -149,6 +130,7 @@ class HomeView extends GetView<HomeController> {
                                 )),
                         ),
                         16.height,
+
                         // Expanded(
                         //   child:
                         Container(
@@ -191,8 +173,7 @@ class HomeView extends GetView<HomeController> {
                                       child: Container(
                                         padding: EdgeInsets.symmetric(
                                             vertical: 4, horizontal: 8),
-                                        child:
-                                            text("1-20", color: Colors.white),
+                                        child: text("1-20", color: clr_white),
                                       ),
                                     ),
                                   ),
@@ -284,27 +265,29 @@ class BookCard extends GetView<HomeController> {
                       },
                       icon: Icon(
                         Icons.cancel_outlined,
-                        color: Colors.white,
+                        color: clr_white,
                       )),
                 ),
                 TextButton.icon(
                     onPressed: () {
                       Get.toNamed(Routes.FORMBOOK, arguments: book);
+                      showEdit.value = false;
                     },
                     icon: Icon(
                       Icons.edit,
-                      color: Colors.white,
+                      color: clr_white,
                     ),
-                    label: text("Edit", color: Colors.white)),
+                    label: text("Edit", color: clr_white)),
                 TextButton.icon(
                     onPressed: () {
                       controller.delete(book);
+                      showEdit.value = false;
                     },
                     icon: Icon(
                       Icons.delete,
-                      color: Colors.white,
+                      color: clr_white,
                     ),
-                    label: text("Delete", color: Colors.white)),
+                    label: text("Delete", color: clr_white)),
               ],
             )
         ],

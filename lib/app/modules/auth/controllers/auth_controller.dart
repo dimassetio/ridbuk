@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ridbuk/app/data/database.dart';
-import 'package:ridbuk/app/modules/auth/models/user_model.dart';
+import 'package:ridbuk/app/data/models/user_model.dart';
 import 'package:ridbuk/app/routes/app_pages.dart';
 
 class AuthController extends GetxController {

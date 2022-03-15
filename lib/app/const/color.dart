@@ -6,6 +6,8 @@ import 'package:flutter/services.dart';
 const clr_primary = Color(0XFF8332A6);
 const clr_secondary = Color(0XFFBF2C98);
 const clr_background = Color(0XFFFBF2FF);
+const clr_white = Color(0XFFFFFFFF);
+const clr_black = Color(0XFF000000);
 Color clr_grey = Colors.grey;
 
 ThemeData lightTheme = ThemeData(
@@ -20,7 +22,7 @@ ThemeData lightTheme = ThemeData(
   primarySwatch: Colors.purple,
   appBarTheme: AppBarTheme(
     centerTitle: true,
-    titleTextStyle: TextStyle(color: Colors.black, fontSize: 16),
+    titleTextStyle: TextStyle(color: clr_black, fontSize: 16),
     systemOverlayStyle: SystemUiOverlayStyle.light,
     backgroundColor: clr_background,
     iconTheme: IconThemeData(color: clr_primary, size: 30),

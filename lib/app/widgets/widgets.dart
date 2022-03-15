@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:ridbuk/app/const/color.dart';
 
 Widget text(
   String? text, {
@@ -17,6 +18,80 @@ Widget text(
         overflow: isLongText ? TextOverflow.visible : TextOverflow.ellipsis,
       ),
     );
+inputText(
+    {TextFieldType textFieldType = TextFieldType.NAME,
+    TextEditingController? controller,
+    bool? isValidationRequired,
+    bool? isEnabled,
+    bool? isReadOnly,
+    Icon? icon,
+    String? label,
+    String? initValue,
+    String? hint,
+    Color? suffixColor,
+    String? Function(String?)? validator}) {
+  return AppTextField(
+    controller: controller,
+    isValidationRequired: isValidationRequired,
+    textFieldType: textFieldType,
+    decoration: InputDecoration(
+      prefixIcon: icon,
+      labelText: label,
+      hintText: hint,
+      suffixIconColor: suffixColor,
+    ),
+    enabled: isEnabled,
+    readOnly: isReadOnly,
+    validator: validator,
+    initialValue: initValue,
+  );
+}
+
+class InputText extends StatelessWidget {
+  InputText({
+    this.textFieldType = TextFieldType.NAME,
+    this.controller,
+    this.isValidationRequired,
+    this.isEnabled,
+    this.isReadOnly,
+    this.icon,
+    this.label,
+    this.initValue,
+    this.hint,
+    this.suffixColor,
+    this.validator,
+  });
+
+  TextFieldType textFieldType = TextFieldType.NAME;
+  TextEditingController? controller;
+  bool? isValidationRequired;
+  bool? isEnabled;
+  bool? isReadOnly;
+  Icon? icon;
+  String? label;
+  String? initValue;
+  String? hint;
+  Color? suffixColor;
+  String? Function(String?)? validator;
+  @override
+  Widget build(BuildContext context) {
+    return AppTextField(
+      controller: controller,
+      isValidationRequired: isValidationRequired,
+      textFieldType: textFieldType,
+      decoration: InputDecoration(
+        prefixIcon: icon,
+        labelText: label,
+        hintText: hint,
+        suffixIconColor: suffixColor,
+      ),
+      enabled: isEnabled,
+      readOnly: isReadOnly,
+      validator: validator,
+      initialValue: initValue,
+    );
+  }
+}
 
 class BoxContainer extends StatelessWidget {
   BoxContainer(
@@ -46,7 +121,7 @@ class BoxContainer extends StatelessWidget {
       decoration: boxDecorationDefault(
         borderRadius: BorderRadius.circular(radius ?? 16),
         boxShadow: defaultBoxShadow(),
-        color: color ?? Colors.white,
+        color: color ?? clr_white,
       ),
       child: Column(
         crossAxisAlignment: crossAxis ?? CrossAxisAlignment.start,
