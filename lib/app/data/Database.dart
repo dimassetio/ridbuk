@@ -8,6 +8,7 @@ FirebaseFirestore firestore = FirebaseFirestore.instance;
 FirebaseStorage storage = FirebaseStorage.instance;
 const userCollection = "User";
 const bookCollection = "Books";
+const readingCollection = "Readings";
 
 class Database {
   CollectionReference collectionReference;

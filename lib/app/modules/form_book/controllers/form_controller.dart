@@ -35,7 +35,7 @@ class FormController extends GetxController {
   modelToController(Book book) {
     nameC.text = book.name ?? '';
     pageC.text = book.pages?.toString() ?? '';
-    readC.text = book.readPage?.toString() ?? '';
+    readC.text = book.readPage?.toString() ?? '0';
     selectedCategory = book.category;
   }
 

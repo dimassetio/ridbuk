@@ -82,6 +82,7 @@ class FormView extends GetView<FormController> {
                         AppTextField(
                           textFieldType: TextFieldType.PHONE,
                           isValidationRequired: true,
+                          readOnly: !book.id.isEmptyOrNull,
                           controller: controller.readC,
                           decoration: InputDecoration(
                             prefixIcon: Icon(Icons.remove_red_eye_outlined),

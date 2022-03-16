@@ -10,8 +10,10 @@ import 'package:ridbuk/app/const/color.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:ridbuk/app/const/images.dart';
+import 'package:ridbuk/app/data/models/reading_model.dart';
 import 'package:ridbuk/app/modules/auth/controllers/auth_controller.dart';
 import 'package:ridbuk/app/data/models/book_model.dart';
+import 'package:ridbuk/app/widgets/read_form.dart';
 import 'package:ridbuk/app/routes/app_pages.dart';
 import 'package:ridbuk/app/widgets/bottom_bar.dart';
 import 'package:ridbuk/app/widgets/widgets.dart';
@@ -24,7 +26,16 @@ class HomeView extends GetView<HomeController> {
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Get.defaultDialog(
+            // textCancel: "Cancel",
+
+            contentPadding: EdgeInsets.zero,
+            barrierDismissible: false,
+            content: ReadForm(),
+            title: "Reading Form",
+          );
+        },
         child: Icon(
           Icons.add,
           color: clr_white,
@@ -46,8 +57,10 @@ class HomeView extends GetView<HomeController> {
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter)),
           ),
-          SingleChildScrollView(
-            child: SafeArea(
+          SafeArea(
+            child: Container(
+              height: Get.height,
+              width: Get.width,
               child: Column(
                 children: [
                   16.height,
@@ -149,43 +162,65 @@ class HomeView extends GetView<HomeController> {
                                 child:
                                     text("Recent Activity", color: clr_primary),
                               ),
-                              ListView.builder(
-                                shrinkWrap: true,
-                                physics: ScrollPhysics(),
-                                itemCount: 15,
-                                itemBuilder: (context, index) => Container(
-                                  color: clr_primary
-                                      .withOpacity(index % 2 == 1 ? 0.2 : 0.1),
-                                  child: ListTile(
-                                    // .withOpacity(index % 2 == 1 ? 0.2 : 0.4),
-                                    leading: SvgPicture.asset(
-                                      svgCover,
-                                      height: 30,
-                                    ),
-                                    title: text("Book Name",
-                                        fontWeight: FontWeight.w400),
-                                    subtitle: text("Sat, 26 Feb 2020, 12.15"),
-                                    trailing: Card(
-                                      color: clr_secondary,
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(12)),
-                                      child: Container(
-                                        padding: EdgeInsets.symmetric(
-                                            vertical: 4, horizontal: 8),
-                                        child: text("1-20", color: clr_white),
-                                      ),
-                                    ),
+                              Obx(
+                                () => Expanded(
+                                  child: ListView.builder(
+                                    shrinkWrap: true,
+                                    physics: ScrollPhysics(),
+                                    // itemCount: 100,
+                                    itemCount: controller.readings.length,
+                                    itemBuilder: (context, index) {
+                                      Reading reading =
+                                          controller.readings[index];
+                                      Book? book = controller.books
+                                          .firstWhereOrNull((element) =>
+                                              element.id ==
+                                              controller
+                                                  .readings[index].bookID);
+                                      return Container(
+                                        color: clr_primary.withOpacity(
+                                            index % 2 == 1 ? 0.2 : 0.1),
+                                        child: ListTile(
+                                          // .withOpacity(index % 2 == 1 ? 0.2 : 0.4),
+                                          leading:
+                                              book?.images.isEmptyOrNull ?? true
+                                                  ? SvgPicture.asset(
+                                                      svgCover,
+                                                      height: 30,
+                                                    )
+                                                  : Image.network(
+                                                      book!.images!,
+                                                      height: 30,
+                                                    ),
+                                          title: text(book?.name ?? "Book Name",
+                                              fontWeight: FontWeight.w400),
+                                          // subtitle: text(DateFormat()),
+                                          trailing: Card(
+                                            color: clr_secondary,
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(12)),
+                                            child: Container(
+                                              padding: EdgeInsets.symmetric(
+                                                  vertical: 4, horizontal: 8),
+                                              child: text(
+                                                  "${reading.previousPage}-${reading.currentPage}",
+                                                  color: clr_white),
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    },
                                   ),
                                 ),
                               ),
                             ],
                           ),
-                        ),
+                        ).expand(),
                         // ),
                       ],
                     ),
-                  )
+                  ).expand()
                 ],
               ),
             ),
